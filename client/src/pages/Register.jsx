@@ -4,11 +4,11 @@ import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
 
-  const { registerData, updateRegisterData } = useContext(AuthContext)
+  const { registerData, updateRegisterData, registerUser, registerError, isRegisterLoading } = useContext(AuthContext)
 
   return (
     <>
-      <Form>
+      <Form onSubmit={registerUser}>
         <Row style={{
           height: "100vh",
           justifyContent: "center",
@@ -38,10 +38,15 @@ const Register = () => {
                   ...registerData, password: e.target.value
                 })}
               />
-              <Button variant="primary" type="submit">
-                Register
+              <Button disabled={isRegisterLoading} variant="primary" type="submit">
+                {isRegisterLoading ? "Loading" : "Register"}
               </Button>
-              <Alert variant="danger"><p>An error</p></Alert>
+              {
+                registerError?.error && (
+                  <Alert variant="danger"><p>{registerError.message}</p></Alert>
+                )
+              }
+              
             </Stack>
           </Col>
         </Row>
